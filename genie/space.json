@@ -1,0 +1,265 @@
+{
+  "version": 2,
+  "config": {
+    "sample_questions": [
+      {
+        "id": "a0000000000000000000000000000001",
+        "question": [
+          "Which desks breach their stress loss limit, and in which scenarios?"
+        ]
+      },
+      {
+        "id": "a0000000000000000000000000000002",
+        "question": [
+          "What are the top 3 risk factors behind the loss in the yen surge scenario?"
+        ]
+      },
+      {
+        "id": "a0000000000000000000000000000003",
+        "question": [
+          "How much headroom does the Equity desk have under the global equity sell-off?"
+        ]
+      },
+      {
+        "id": "a0000000000000000000000000000004",
+        "question": [
+          "Which scenarios have not been signed off by the committee yet?"
+        ]
+      },
+      {
+        "id": "a0000000000000000000000000000005",
+        "question": [
+          "Rank the scenarios by total stressed loss."
+        ]
+      }
+    ]
+  },
+  "data_sources": {
+    "tables": [
+      {
+        "identifier": "stress_demo.risk.gold_commentary",
+        "description": [
+          "One row per stress scenario: the AI-generated risk committee commentary and the facts it was generated from."
+        ],
+        "column_configs": [
+          {
+            "column_name": "any_breach",
+            "description": [
+              "True if any desk breaches its stress loss limit in this scenario."
+            ]
+          },
+          {
+            "column_name": "commentary",
+            "description": [
+              "AI-generated three-sentence commentary for the risk committee (ai_query)."
+            ]
+          },
+          {
+            "column_name": "facts",
+            "description": [
+              "The numbers given to the AI to write the commentary."
+            ]
+          },
+          {
+            "column_name": "scenario_name",
+            "enable_entity_matching": true,
+            "enable_format_assistance": true
+          },
+          {
+            "column_name": "total_pnl_jpy",
+            "description": [
+              "Total stressed P&L across desks in JPY. Negative means loss."
+            ],
+            "synonyms": [
+              "total loss",
+              "total stressed loss"
+            ]
+          }
+        ]
+      },
+      {
+        "identifier": "stress_demo.risk.gold_desk_stress",
+        "description": [
+          "One row per scenario and desk: stressed P&L against the desk stress loss limit. Use this table for limit, breach and headroom questions."
+        ],
+        "column_configs": [
+          {
+            "column_name": "desk",
+            "enable_entity_matching": true,
+            "enable_format_assistance": true,
+            "synonyms": [
+              "trading desk",
+              "book"
+            ]
+          },
+          {
+            "column_name": "limit_breach",
+            "description": [
+              "True when the stressed loss is larger than the desk limit."
+            ],
+            "synonyms": [
+              "breach",
+              "over the limit"
+            ]
+          },
+          {
+            "column_name": "limit_jpy",
+            "description": [
+              "Desk stress loss limit in JPY (a positive number)."
+            ],
+            "synonyms": [
+              "limit",
+              "stress limit"
+            ]
+          },
+          {
+            "column_name": "limit_utilization",
+            "description": [
+              "Stressed loss divided by the limit. 1.0 means the loss equals the limit; above 1.0 is a breach."
+            ],
+            "synonyms": [
+              "limit usage",
+              "utilisation"
+            ]
+          },
+          {
+            "column_name": "pnl_jpy",
+            "description": [
+              "Stressed P&L for the desk in JPY. Negative means loss."
+            ],
+            "synonyms": [
+              "loss",
+              "stressed loss",
+              "P&L"
+            ]
+          },
+          {
+            "column_name": "scenario_name",
+            "enable_entity_matching": true,
+            "enable_format_assistance": true,
+            "synonyms": [
+              "scenario",
+              "stress scenario"
+            ]
+          }
+        ]
+      },
+      {
+        "identifier": "stress_demo.risk.gold_stress_pnl",
+        "description": [
+          "One row per scenario, desk and risk factor: stressed P&L = sensitivity x shock. Use this table for loss driver questions."
+        ],
+        "column_configs": [
+          {
+            "column_name": "desk",
+            "enable_entity_matching": true,
+            "enable_format_assistance": true
+          },
+          {
+            "column_name": "pnl_jpy",
+            "description": [
+              "Stressed P&L in JPY for this risk factor. Negative means loss."
+            ],
+            "synonyms": [
+              "loss",
+              "P&L"
+            ]
+          },
+          {
+            "column_name": "positions",
+            "description": [
+              "Number of positions exposed to this risk factor."
+            ]
+          },
+          {
+            "column_name": "risk_factor",
+            "enable_entity_matching": true,
+            "enable_format_assistance": true,
+            "description": [
+              "Market risk factor, e.g. USDJPY, NIKKEI225, JPY_IR_10Y, US_CREDIT_BBB."
+            ],
+            "synonyms": [
+              "factor",
+              "driver"
+            ]
+          },
+          {
+            "column_name": "scenario_name",
+            "enable_entity_matching": true,
+            "enable_format_assistance": true
+          }
+        ]
+      },
+      {
+        "identifier": "stress_demo_lakebase.committee.approvals",
+        "description": [
+          "Risk committee decisions entered in the app (Lakebase table registered in Unity Catalog). The latest row per scenario is the current decision; scenarios with no row are not decided yet."
+        ],
+        "column_configs": [
+          {
+            "column_name": "decided_at",
+            "description": [
+              "When the decision was recorded."
+            ]
+          },
+          {
+            "column_name": "decided_by",
+            "exclude": true
+          },
+          {
+            "column_name": "decision",
+            "description": [
+              "SIGNED_OFF or ACTION_REQUESTED."
+            ],
+            "synonyms": [
+              "sign-off",
+              "status"
+            ]
+          },
+          {
+            "column_name": "id",
+            "exclude": true
+          },
+          {
+            "column_name": "note",
+            "description": [
+              "Committee note entered with the decision."
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "instructions": {
+    "example_question_sqls": [
+      {
+        "id": "b0000000000000000000000000000001",
+        "question": [
+          "Which desks breach their stress loss limit?"
+        ],
+        "sql": [
+          "SELECT gold_desk_stress.scenario_name, gold_desk_stress.desk, ROUND(-gold_desk_stress.pnl_jpy / 1e9, 1) AS loss_jpy_bn, ROUND(gold_desk_stress.limit_jpy / 1e9, 1) AS limit_jpy_bn, gold_desk_stress.limit_utilization FROM stress_demo.risk.gold_desk_stress WHERE gold_desk_stress.limit_breach ORDER BY gold_desk_stress.limit_utilization DESC"
+        ]
+      },
+      {
+        "id": "b0000000000000000000000000000002",
+        "question": [
+          "What drives the loss in the yen surge scenario?"
+        ],
+        "sql": [
+          "SELECT gold_stress_pnl.risk_factor, gold_stress_pnl.desk, ROUND(gold_stress_pnl.pnl_jpy / 1e9, 2) AS pnl_jpy_bn FROM stress_demo.risk.gold_stress_pnl WHERE gold_stress_pnl.scenario_name = 'Yen surges 15%' ORDER BY gold_stress_pnl.pnl_jpy ASC LIMIT 3"
+        ]
+      }
+    ],
+    "text_instructions": [
+      {
+        "id": "c0000000000000000000000000000001",
+        "content": [
+          "P&L columns are in JPY and negative means loss; answer amounts in JPY bn with one decimal. ",
+          "Limit utilization = stressed loss / limit; a breach is loss > limit; headroom = limit - loss. ",
+          "Results are a sensitivity x shock approximation on synthetic data."
+        ]
+      }
+    ]
+  }
+}

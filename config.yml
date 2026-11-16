@@ -1,0 +1,10 @@
+# Single source of names used by notebooks and the app.
+profile: DEFAULT          # Databricks CLI profile
+catalog: stress_demo
+schema: risk
+volume: raw
+pipeline_name: stress-demo-pipeline
+lakebase_project: stress-demo
+lakebase_catalog: stress_demo_lakebase   # Lakebase database registered in Unity Catalog
+llm_endpoint: databricks-claude-sonnet-5-5   # used by ai_query in pipeline/gold.sql
+warehouse_id: 32da4c6102351ccf   # SQL warehouse for Genie (serverless X-Small)
