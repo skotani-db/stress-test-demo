@@ -272,7 +272,7 @@
 
 **Q. What about lock-in?**（ロックインは）
 > Data is Delta in your storage, and Lakebase is standard Postgres.
-> データは皆さまのストレージに���る Delta で、Lakebase は標準の Postgres です。
+> データは皆さまのストレージにある Delta で、Lakebase は標準の Postgres です。
 
 > Both are open formats you can read with other tools.
 > どちらもオープンな形式で、ほかの道具からも読めます。
