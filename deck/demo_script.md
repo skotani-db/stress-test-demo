@@ -1,7 +1,7 @@
 # Demo script: AI role-play (about 12 minutes plus Q&A)
 
 In the room: the **CRO** (business, funds the decision) and the **data architect / head of risk data** (technical, has to run it).
-Structure: tell → show → tell. Keep the demo tight and land every screen on a business point.
+Structure: tell → show → tell. Keep the demo tight and land every screen on a business point. The app is one page: scroll from the top down once (table → yen surge card → credit spreads card → Genie chat), then switch to the pipeline tab.
 
 ## Before you start (5 minutes before)
 
@@ -29,16 +29,16 @@ Structure: tell → show → tell. Keep the demo tight and land every screen on 
 > "For every scenario the platform drafts the commentary the analysts used to write. It names the desk and the two risk factors, USD/JPY and EUR/JPY, says why, and says what the committee must decide. It may use only these stored facts, and the screen says so: AI-generated, verify."
 **Business point:** "The analysts review and challenge. They don't type."
 
-**c. A follow-up question, live (Genie chat).** About 2 minutes.
+**c. Record the decision (scroll down to the credit spreads card).** About 1 minute.
+Type the note *"Credit desk to cut US BBB exposure below limit by next committee"* and click **Request action**.
+> "The decision is written to Lakebase, the operational database, with my name and the time."
+
+**d. A follow-up question, live (scroll down to the Genie chat).** About 2 minutes.
 Ask: *"What are the top 3 risk factors behind the loss in the yen surge scenario?"*
 > "This is the question that used to go back to the team for a day. Genie answers from the same governed tables: USD/JPY minus 7.2 billion, EUR/JPY minus 4.4, Nikkei minus 1.3. Here is the SQL it ran, so anyone can check it."
 For the architect: "It runs on behalf of the signed-in user, so Unity Catalog applies my own permissions, including the counterparty mask."
 
-**d. Record the decision (credit spreads card).** About 1 minute.
-Type the note *"Credit desk to cut US BBB exposure below limit by next committee"* and click **Request action**.
-> "The decision is written to Lakebase, the operational database, with my name and the time."
-
-**e. Show it's one connected system (Genie again).** About 1 minute.
+**e. Show it's one connected system (same chat, next question).** About 1 minute.
 Ask: *"Which scenarios have not been signed off by the committee yet?"*
 > "The decision I just made is already there. Genie joins the lakehouse results with the decision in Lakebase through Unity Catalog. No export and no second copy."
 
